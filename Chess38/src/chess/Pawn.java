@@ -32,16 +32,24 @@ public class Pawn extends Piece {
 				return posList;
 			}else if(Board.isEmpty(x,y-1)){
 				posList.add(new Position(x,y-1));
-				if(Board.isEmpty(x-1, y-1) && Board.board[x-1][y-1].getTeam().equals("black")){
-					posList.add(new Position(x-1,y-1));
+				if(x == 0){ // if pawn is on the left edge
 					if(Board.isEmpty(x+1, y-1) && Board.board[x+1][y-1].getTeam().equals("black")){
 						posList.add(new Position(x+1,y-1));
 					}
-				}
+				}else if( x == 7){ //if pawn is on the right edge
+					if(Board.isEmpty(x-1, y-1) && Board.board[x-1][y-1].getTeam().equals("black")){
+						posList.add(new Position(x-1,y-1));
+					}
+				}else if(Board.isEmpty(x-1, y-1) && Board.board[x-1][y-1].getTeam().equals("black")){
+						posList.add(new Position(x-1,y-1));
+						if(Board.isEmpty(x+1, y-1) && Board.board[x+1][y-1].getTeam().equals("black")){
+							posList.add(new Position(x+1,y-1));
+						}
+					}
 				
 				return posList;
 			}
-		}else {
+		}else { //Black Pawn
 			if(firstMoveMade == 0){ //Check for pawn that hasn't made a move yet
 				if(Board.isEmpty(x,y+1)){
 					posList.add(new Position(x,y+1));
@@ -53,27 +61,26 @@ public class Pawn extends Piece {
 				return posList;
 			}else if(Board.isEmpty(x,y+1)){
 				posList.add(new Position(x,y+1));
-				if(Board.isEmpty(x+1, y+1) && Board.board[x+1][y+1].getTeam().equals("black")){
-					posList.add(new Position(x-1,y-1));
-					if(Board.isEmpty(x+1, y-1) && Board.board[x+1][y-1].getTeam().equals("black")){
-						posList.add(new Position(x+1,y-1));
+				if(x == 0){ // if pawn is on the left edge
+					if(Board.isEmpty(x+1, y+1) && Board.board[x+1][y+1].getTeam().equals("white")){
+						posList.add(new Position(x+1,y+1));
 					}
-				}
+				}else if( x == 7){ //if pawn is on the right edge
+					if(Board.isEmpty(x-1, y+1) && Board.board[x-1][y+1].getTeam().equals("white")){
+						posList.add(new Position(x-1,y+1));
+					}
+				}else if(Board.isEmpty(x+1, y+1) && Board.board[x+1][y+1].getTeam().equals("white")){
+						posList.add(new Position(x+1,y+1));
+						if(Board.isEmpty(x-1, y+1) && Board.board[x-1][y+1].getTeam().equals("white")){
+							posList.add(new Position(x-1,y+1));
+						}
+					}
 				
 				return posList;
 			}
-		}
-		
-		//Black Pawn
-		
+		}		
 		
 		return posList;
-	}
-
-	@Override
-	public boolean canMove(int rank, int file) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

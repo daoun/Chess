@@ -75,19 +75,6 @@ public class Bishop extends Piece {
 		return posList;
 		
 	}
-	
-	public boolean canMove(int rank, int file){ // ?? Empty arguments ? Changed it to rank + file
-		ArrayList<Position> availablePos = this.availablePositions();
-		
-		//Check to see if target position is valid
-		for(Position p : availablePos){
-			if(p.getRank() == rank && p.getFile() == file){
-				return true;
-			}
-		}
-		
-		return false;
-	}
 
 	public int addPosition(int x, int y, ArrayList<Position> posList){
 		//Add empty position

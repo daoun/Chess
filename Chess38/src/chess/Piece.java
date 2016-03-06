@@ -18,7 +18,18 @@ public abstract class Piece {
 	
 	public abstract ArrayList<Position> availablePositions(); 
 	
-	public abstract boolean canMove(int rank, int file);
+	public boolean canMove(int rank, int file){ // ?? Empty arguments ? Changed it to rank + file
+		ArrayList<Position> availablePos = this.availablePositions();
+		
+		//Check to see if target position is valid
+		for(Position p : availablePos){
+			if(p.getRank() == rank && p.getFile() == file){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	public String getType() {
 		return type;
