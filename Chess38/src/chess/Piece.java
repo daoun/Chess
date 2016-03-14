@@ -18,7 +18,7 @@ public abstract class Piece {
 	
 	public abstract ArrayList<Position> availablePositions(); 
 	
-	public boolean canMove(int rank, int file){ // ?? Empty arguments ? Changed it to rank + file
+	public boolean canMove(int rank, int file){
 		ArrayList<Position> availablePos = this.availablePositions();
 		
 		//Check to see if target position is valid
