@@ -1,17 +1,19 @@
 package chess;
 
+import java.util.ArrayList;
+
 public class Rook extends Piece {
 
+	public Rook(String type, String team, int rank, int file){
+		super(type,team,rank,file);
+	}
+	
 	@Override
-	public Position availablePositions() {
+	public ArrayList<Position> availablePositions() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public boolean canMove() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 }
