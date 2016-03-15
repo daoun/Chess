@@ -1,10 +1,7 @@
 package chess;
 
-import java.util.ArrayList;
-
 public class Player {
 	Piece[] pieces = new Piece[16];
-	int turn = 0; 
 	
 	public Player(String team){
 		
@@ -43,8 +40,6 @@ public class Player {
 			pieces[14] = new Pawn("pawn","white",1,6);
 			pieces[15] = new Pawn("pawn","white",1,7);
 			
-			//white turn first
-			turn = 1;
 		}
 		
 		
