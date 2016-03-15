@@ -125,8 +125,8 @@ public class Board {
 	}
 	
 	//Check if a position in board is empty
-	public static boolean isEmpty(Position pos){
-		if(board[pos.getRank()][pos.getFile()] == null){
+	public static boolean isEmpty(int rank, int file){
+		if(board[rank][file] == null){
 			return true;
 		}else
 			return false;

@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
@@ -19,7 +18,19 @@ public abstract class Piece {
 	
 	public abstract List<Position> availablePositions(); 
 	
-	public abstract int addPosition(Position pos, List<Position> posList); 
+	public int addPosition(int x, int y, List<Position> posList){
+		//Add empty position
+		if(Board.isEmpty(x,y)){
+			posList.add(new Position(x,y));
+			return 1;
+		}else if(!(Board.board[x][y].getTeam().equals(this.getTeam()))){ 
+			//Add position that contains opponent's piece
+			posList.add(new Position(x,y));
+			return 0;
+		}else{ //Break if position contains ally piece
+			return 0;
+		}
+	}
 	
 	public boolean canMove(int rank, int file){
 		List<Position> availablePos = this.availablePositions();

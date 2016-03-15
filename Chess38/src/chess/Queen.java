@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Queen extends Piece {
@@ -15,11 +14,6 @@ public class Queen extends Piece {
 		return null;
 	}
 
-	@Override
-	public int addPosition(Position pos, List<Position> posList) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	
 

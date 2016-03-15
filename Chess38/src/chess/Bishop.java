@@ -35,7 +35,7 @@ public class Bishop extends Piece {
 			y--;
 			
 			//Add positions
-			if(addPosition(new Position(x,y),posList) == 0){
+			if(addPosition(x,y,posList) == 0){
 				break; // break out of loop if position contains an opponent or ally piece
 			}
 		}
@@ -50,7 +50,7 @@ public class Bishop extends Piece {
 			y--;
 			
 			//Add positions
-			if(addPosition(new Position(x,y),posList) == 0){
+			if(addPosition(x,y,posList) == 0){
 				break; // break out of loop if position contains an opponent or ally piece
 			}
 		}
@@ -65,7 +65,7 @@ public class Bishop extends Piece {
 			y++;
 			
 			//Add positions
-			if(addPosition(new Position(x,y),posList) == 0){
+			if(addPosition(x,y,posList) == 0){
 				break; // break out of loop if position contains an opponent or ally piece
 			}
 		}				
@@ -80,27 +80,13 @@ public class Bishop extends Piece {
 			y++;
 			
 			//Add positions
-			if(addPosition(new Position(x,y),posList) == 0){
+			if(addPosition(x,y,posList) == 0){
 				break; // break out of loop if position contains an opponent or ally piece
 			}
 		}		
 		
 		return posList;
 		
-	}
-	@Override
-	public int addPosition(Position pos, List<Position> posList){
-		//Add empty position
-		if(Board.isEmpty(pos)){
-			posList.add(pos);
-			return 1;
-		}else if(!(Board.board[pos.getRank()][pos.getFile()].getTeam().equals(this.getTeam()))){ 
-			//Add position that contains opponent's piece
-			posList.add(pos);
-			return 0;
-		}else{ //Break if position contains ally piece
-			return 0;
-		}
 	}
 	
 }

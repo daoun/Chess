@@ -20,30 +20,138 @@ public class Chess {
 		Scanner scanner = new Scanner(System.in);
 		String read = "";
 		
-		//
-		boolean wrongInput = true;
+		//To check status of game
+		int gameStatus = 1;
 		
+		//Variable used to check input
+		boolean wrongInput;
+		String team = "";
+		
+		//
+		int fromX, fromY, toX, toY;
 		
 		do {
 			//Draw board
 			Board.drawBoard();
+			wrongInput = true;
 			
 			if(turn == 1){
-				while(wrongInput){
-					System.out.println("White's move: ");
-					checkInput(scanner.nextLine());
-				}
-				
+				System.out.print("White's move: ");
+				team = "White";
+				turn = 0;
+			}else{
+				System.out.print("Black's move: ");
+				team = "Black";
+				turn = 1;
 			}
 			
-		}while(true);
+			//Check user input
+			while(wrongInput){
+				
+				if(checkInput(read = scanner.nextLine())){
+					fromX = translate(read.charAt(0));
+					fromY = translate(Character.getNumericValue(read.charAt(1)));
+					toX = translate(read.charAt(3));
+					toY = translate(Character.getNumericValue(read.charAt(4)));
+					if(team.equals("White") && wPlayer.movePiece(fromX, fromY, toX, toY)){
+						wrongInput = false;
+					}else if(bPlayer.movePiece(fromX,fromY,toX,toY)){
+						wrongInput = false;
+					}else{
+						System.out.println("Illegal move, try again");
+						System.out.print(team + "'s move: ");
+					}
+				}else{
+					System.out.println("Illegal move, try again");
+					System.out.print(team + "'s move: ");
+				}
+			}
+				
+			
+		}while(gameStatus == 1);
 		
-		//Board.drawBoard();
+		scanner.close();
 	}
 	
 	//Method to check whether user input is correctly formatted
 	public static boolean checkInput(String input){
-		return false;
+		
+		input = input.toLowerCase();
+		
+		if(input.length() != 5){
+			return false;
+		}
+		
+		if(input.charAt(2) != ' '){
+			return false;
+		}
+		
+		if(checkAlpha(input.charAt(0)) && checkDigit(Character.getNumericValue(input.charAt(1))) && checkAlpha(input.charAt(3)) && checkDigit(Character.getNumericValue(input.charAt(4)))){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
+	public static boolean checkAlpha(char c){
+		if(Character.isLetter(c) && c == 'a' ||c == 'b' ||c == 'c' ||c == 'd' ||c == 'e' ||c == 'f' ||c == 'g' ||c == 'h'){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public static boolean checkDigit(int i){
+		
+		if(i > 8 || i < 1){
+			return false;
+		}else{
+			return true;
+		}
+		
+	}
+	
+	// Translate user input to corresponding coordinates on the board
+	public static int translate(int i){
+		switch(i){
+			case 8:
+				return 0;
+			case 7:
+				return 1;
+			case 6:
+				return 2;
+			case 5:
+				return 3;
+			case 4:
+				return 4;
+			case 3:
+				return 5;
+			case 2:
+				return 6;
+			default:
+				return 7;
+		}
+	}
+	
+	public static int translate(char c){
+		
+		switch(c){
+		case 'a':
+			return 0;
+		case 'b':
+			return 1;
+		case 'c':
+			return 2;
+		case 'd':
+			return 3;
+		case 'e':
+			return 4;
+		case 'f':
+			return 5;
+		case 'g':
+			return 6;
+		default:
+			return 7;
+	}
+	}
 }
