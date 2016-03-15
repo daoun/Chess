@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Piece {
 	
@@ -16,12 +17,12 @@ public abstract class Piece {
 		this.file = file;
 	}
 	
-	public abstract ArrayList<Position> availablePositions(); 
+	public abstract List<Position> availablePositions(); 
 	
-	public abstract int addPosition(int x, int y, ArrayList<Position> posList); 
+	public abstract int addPosition(Position pos, List<Position> posList); 
 	
 	public boolean canMove(int rank, int file){
-		ArrayList<Position> availablePos = this.availablePositions();
+		List<Position> availablePos = this.availablePositions();
 		
 		//Check to see if target position is valid
 		for(Position p : availablePos){

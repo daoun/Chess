@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Knight extends Piece {
 
@@ -9,13 +10,13 @@ public class Knight extends Piece {
 	}
 	
 	@Override
-	public ArrayList<Position> availablePositions() {
+	public List<Position> availablePositions() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int addPosition(int x, int y, ArrayList<Position> posList) {
+	public int addPosition(Position pos, List<Position> posList) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
