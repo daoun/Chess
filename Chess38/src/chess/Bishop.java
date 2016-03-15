@@ -75,13 +75,14 @@ public class Bishop extends Piece {
 		return posList;
 		
 	}
-
+	@Override
 	public int addPosition(int x, int y, ArrayList<Position> posList){
 		//Add empty position
 		if(Board.isEmpty(x,y)){
 			posList.add(new Position(x,y));
 			return 1;
-		}else if(!(Board.board[x][y].getTeam().equals(this.getTeam()))){ //Add position that contains opponent's piece
+		}else if(!(Board.board[x][y].getTeam().equals(this.getTeam()))){ 
+			//Add position that contains opponent's piece
 			posList.add(new Position(x,y));
 			return 0;
 		}else{ //Break if position contains ally piece

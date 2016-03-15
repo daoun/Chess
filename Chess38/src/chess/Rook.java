@@ -14,6 +14,12 @@ public class Rook extends Piece {
 		return null;
 	}
 
+	@Override
+	public int addPosition(int x, int y, ArrayList<Position> posList) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 
 }

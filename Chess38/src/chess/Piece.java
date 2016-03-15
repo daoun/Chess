@@ -18,6 +18,8 @@ public abstract class Piece {
 	
 	public abstract ArrayList<Position> availablePositions(); 
 	
+	public abstract int addPosition(int x, int y, ArrayList<Position> posList); 
+	
 	public boolean canMove(int rank, int file){
 		ArrayList<Position> availablePos = this.availablePositions();
 		

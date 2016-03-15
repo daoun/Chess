@@ -83,4 +83,12 @@ public class Pawn extends Piece {
 		return posList;
 	}
 
+	@Override
+	public int addPosition(int x, int y, ArrayList<Position> posList) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+
 }
