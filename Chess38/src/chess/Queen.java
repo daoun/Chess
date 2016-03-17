@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Queen extends Piece {
@@ -10,8 +11,14 @@ public class Queen extends Piece {
 	
 	@Override
 	public List<Position> availablePositions() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Position> posList = new ArrayList<Position>();
+		
+		posList = this.findDiagonal();
+		posList.addAll(this.findStraight());
+		
+		return posList;
+		
 	}
 
 

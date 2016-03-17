@@ -15,68 +15,75 @@ public class Pawn extends Piece {
 		
 		//Initialize list
 		ArrayList<Position> posList = new ArrayList<Position>();
-		int x = this.getRank();
-		int y = this.getRank();
+		int rank = this.getRank();
+		int file = this.getFile();
 		String team = this.getTeam();
 		
 		//White Pawn
-		if(team.equals("white")){
+		if(team.equals("white") && Chess.turn == 1){
 			if(firstMoveMade == 0){ //Check for pawn that hasn't made a move yet
-				if(Board.isEmpty(x,y-1)){
-					posList.add(new Position(x,y-1));
-					if(Board.isEmpty(x, y-2)){ //Pawn can move forward 2 positions if vacant
-						posList.add(new Position(x,y-2));
+				if(Board.isEmpty(rank-1,file)){
+					posList.add(new Position(rank-1,file));
+					if(Board.isEmpty(rank-2, file)){ //Pawn can move forward 2 positions if vacant
+						posList.add(new Position(rank-2,file));
 					}
 				}
 				firstMoveMade = 1;
 				return posList;
-			}else if(Board.isEmpty(x,y-1)){
-				posList.add(new Position(x,y-1));
-				if(x == 0){ // if pawn is on the left edge
-					if(Board.isEmpty(x+1, y-1) && Board.board[x+1][y-1].getTeam().equals("black")){
-						posList.add(new Position(x+1,y-1));
+			}else if(Board.isEmpty(rank-1,file)){
+				posList.add(new Position(rank-1,file));
+				if(file == 0){ // if pawn is on the left edge
+					if(!Board.isEmpty(rank-1, file+1) && Board.board[rank-1][file+1].getTeam().equals("black")){
+						posList.add(new Position(rank-1,file+1));
+						return posList;
 					}
-				}else if( x == 7){ //if pawn is on the right edge
-					if(Board.isEmpty(x-1, y-1) && Board.board[x-1][y-1].getTeam().equals("black")){
-						posList.add(new Position(x-1,y-1));
+				}else if(file == 7){ //if pawn is on the right edge
+					if(!Board.isEmpty(rank-1, file-1) && Board.board[rank-1][file-1].getTeam().equals("black")){
+						posList.add(new Position(rank-1,file-1));
+						return posList;
 					}
-				}else if(Board.isEmpty(x-1, y-1) && Board.board[x-1][y-1].getTeam().equals("black")){
-						posList.add(new Position(x-1,y-1));
-						if(Board.isEmpty(x+1, y-1) && Board.board[x+1][y-1].getTeam().equals("black")){
-							posList.add(new Position(x+1,y-1));
+				}else if(!Board.isEmpty(rank-1, file-1) && Board.board[rank-1][file-1].getTeam().equals("black")){
+						posList.add(new Position(rank-1,file-1));
+						if(!Board.isEmpty(rank-1, file+1) && Board.board[rank-1][file+1].getTeam().equals("black")){
+							posList.add(new Position(rank-1,file+1));
 						}
-					}
+						return posList;
+				}else if(!Board.isEmpty(rank-1, file+1) && Board.board[rank-1][file+1].getTeam().equals("black")){
+					posList.add(new Position(rank-1,file+1));
+				}
 				
-				return posList;
 			}
-		}else { //Black Pawn
+		}else if(team.equals("black") && Chess.turn == 0) { //Black Pawn
 			if(firstMoveMade == 0){ //Check for pawn that hasn't made a move yet
-				if(Board.isEmpty(x,y+1)){
-					posList.add(new Position(x,y+1));
-					if(Board.isEmpty(x, y+2)){ //Pawn can move forward 2 positions if vacant
-						posList.add(new Position(x,y+2));
+				if(Board.isEmpty(rank+1,file)){
+					posList.add(new Position(rank+1,file));
+					if(Board.isEmpty(rank+2, file)){ //Pawn can move forward 2 positions if vacant
+						posList.add(new Position(rank+2,file));
 					}
 				}
 				firstMoveMade = 1;
 				return posList;
-			}else if(Board.isEmpty(x,y+1)){
-				posList.add(new Position(x,y+1));
-				if(x == 0){ // if pawn is on the left edge
-					if(Board.isEmpty(x+1, y+1) && Board.board[x+1][y+1].getTeam().equals("white")){
-						posList.add(new Position(x+1,y+1));
+			}else if(Board.isEmpty(rank+1,file)){
+				posList.add(new Position(rank+1,file));
+				if(file == 0){ // if pawn is on the left edge
+					if(!Board.isEmpty(rank+1, file+1) && Board.board[rank+1][file+1].getTeam().equals("white")){
+						posList.add(new Position(rank+1,file+1));
+						return posList;
 					}
-				}else if( x == 7){ //if pawn is on the right edge
-					if(Board.isEmpty(x-1, y+1) && Board.board[x-1][y+1].getTeam().equals("white")){
-						posList.add(new Position(x-1,y+1));
+				}else if(file == 7){ //if pawn is on the right edge
+					if(!Board.isEmpty(rank+1, file-1) && Board.board[rank+1][file-1].getTeam().equals("white")){
+						posList.add(new Position(rank+1,file-1));
+						return posList;
 					}
-				}else if(Board.isEmpty(x+1, y+1) && Board.board[x+1][y+1].getTeam().equals("white")){
-						posList.add(new Position(x+1,y+1));
-						if(Board.isEmpty(x-1, y+1) && Board.board[x-1][y+1].getTeam().equals("white")){
-							posList.add(new Position(x-1,y+1));
+				}else if(!Board.isEmpty(rank+1, file+1) && Board.board[rank+1][file+1].getTeam().equals("white")){
+						posList.add(new Position(rank+1,file+1));
+						if(!Board.isEmpty(rank+1, file-1) && Board.board[rank+1][file-1].getTeam().equals("white")){
+							posList.add(new Position(rank+1,file-1));
 						}
-					}
-				
-				return posList;
+						return posList;
+				}else if(!Board.isEmpty(rank+1, file-1) && Board.board[rank+1][file-1].getTeam().equals("white")){
+					posList.add(new Position(rank+1,file-1));
+				}
 			}
 		}		
 		

@@ -1,61 +1,73 @@
 package chess;
 
 public class Player {
-	Piece[] pieces = new Piece[16];
+	String[] pieces = new String[16];
+	String team;
 	
 	public Player(String team){
 		
-		if(team.equals("black")){
-			pieces[0] = new Rook("rook","black",0,0);
-			pieces[1] = new Knight("knight","black",0,1);
-			pieces[2] = new Bishop("bishop","black",0,2);
-			pieces[3] = new Queen("queen","black",0,3);
-			pieces[4] = new King("king","black",0,4);
-			pieces[5] = new Bishop("bishop","black",0,5);
-			pieces[6] = new Knight("knight","black",0,6);
-			pieces[7] = new Rook("rook","black",0,7);
-			pieces[8] = new Pawn("pawn","black",1,0);
-			pieces[9] = new Pawn("pawn","black",1,1);
-			pieces[10] = new Pawn("pawn","black",1,2);
-			pieces[11] = new Pawn("pawn","black",1,3);
-			pieces[12] = new Pawn("pawn","black",1,4);
-			pieces[13] = new Pawn("pawn","black",1,5);
-			pieces[14] = new Pawn("pawn","black",1,6);
-			pieces[15] = new Pawn("pawn","black",1,7);
-		}else {
-			pieces[0] = new Rook("rook","white",0,0);
-			pieces[1] = new Knight("knight","white",0,1);
-			pieces[2] = new Bishop("bishop","white",0,2);
-			pieces[3] = new Queen("queen","white",0,3);
-			pieces[4] = new King("king","white",0,4);
-			pieces[5] = new Bishop("bishop","white",0,5);
-			pieces[6] = new Knight("knight","white",0,6);
-			pieces[7] = new Rook("rook","white",0,7);
-			pieces[8] = new Pawn("pawn","white",1,0);
-			pieces[9] = new Pawn("pawn","white",1,1);
-			pieces[10] = new Pawn("pawn","white",1,2);
-			pieces[11] = new Pawn("pawn","white",1,3);
-			pieces[12] = new Pawn("pawn","white",1,4);
-			pieces[13] = new Pawn("pawn","white",1,5);
-			pieces[14] = new Pawn("pawn","white",1,6);
-			pieces[15] = new Pawn("pawn","white",1,7);
-			
-		}
+		this.team = team;
+		
+		pieces[0] = "rook";
+		pieces[1] = "knight";
+		pieces[2] = "bishop";
+		pieces[3] = "queen";
+		pieces[4] = "king";
+		pieces[5] = "bishop";
+		pieces[6] = "knight";
+		pieces[7] = "rook";
+		pieces[8] = "pawn";
+		pieces[9] = "pawn";
+		pieces[10] = "pawn";
+		pieces[11] = "pawn";
+		pieces[12] = "pawn";
+		pieces[13] = "pawn";
+		pieces[14] = "pawn";
+		pieces[15] = "pawn";
 		
 		
 	}
 	
 	// movePiece moves the target piece to the location that the player indicated
-	public boolean movePiece(int fromX, int fromY, int toX, int toY){
+	public int movePiece(int fromRank, int fromFile, int toRank, int toFile){
 		
-		Piece piece = Board.board[fromX][fromY];
-		if(piece.canMove(toX, toY)){
-			Board.board[toX][toY] = Board.board[fromX][fromY];
-			Board.board[fromX][fromY] = null;
-			return true;
+		Piece piece = Board.board[fromRank][fromFile];
+		if(piece.canMove(toRank, toFile)){
+	
+			//Check Rook & King for firstMoveMade | used for castling
+			if(Board.board[fromRank][fromFile].getType().equals("rook") || Board.board[fromRank][fromFile].getType().equals("king")){
+				Board.board[fromRank][fromFile].setMadeFirstMove(1);
+			}
+			
+			if(!Board.isEmpty(toRank, toFile)){ //if there is an opponent piece at the destination, remove the piece from the player
+				Board.board[toRank][toFile] = Board.board[fromRank][fromFile];
+				Board.board[toRank][toFile].setRank(toRank);
+				Board.board[toRank][toFile].setFile(toFile);
+				Board.board[fromRank][fromFile] = null;
+				return 2; //Replaced an opponent's piece
+			}else{
+			
+				Board.board[toRank][toFile] = Board.board[fromRank][fromFile];
+				Board.board[toRank][toFile].setRank(toRank);
+				Board.board[toRank][toFile].setFile(toFile);
+				Board.board[fromRank][fromFile] = null;
+				return 1; //Moved piece to empty space
+			}
+			
 		}else{
-			return false;
+			return 0; //Cannot move piece
 		}
 		
 	}
+	
+	//remove piece from player
+	public void removePiece(Piece p){
+		for(int i = 0 ; i < pieces.length ; i++){
+			if(p.getType().equals(pieces[i])){
+				pieces[i] = null;
+				return;
+			}
+		}
+	}
+	
 }

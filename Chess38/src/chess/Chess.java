@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Chess {
 
+	static int turn = 1;
+	
 	public static void main(String[] args) {
 		
 		//Initialize board
@@ -12,9 +14,6 @@ public class Chess {
 		//Initialize player
 		Player bPlayer = new Player("black");
 		Player wPlayer = new Player("white");
-		
-		// 0 indicates black's turn, 1 indicates white's turn
-		int turn = 1;
 		
 		//Scanner to read user input
 		Scanner scanner = new Scanner(System.in);
@@ -30,6 +29,10 @@ public class Chess {
 		//
 		int fromX, fromY, toX, toY;
 		
+		//temp int
+		int temp;
+		
+		
 		do {
 			//Draw board
 			Board.drawBoard();
@@ -38,35 +41,51 @@ public class Chess {
 			if(turn == 1){
 				System.out.print("White's move: ");
 				team = "White";
-				turn = 0;
 			}else{
 				System.out.print("Black's move: ");
 				team = "Black";
-				turn = 1;
 			}
 			
 			//Check user input
 			while(wrongInput){
 				
 				if(checkInput(read = scanner.nextLine())){
-					fromX = translate(read.charAt(0));
-					fromY = translate(Character.getNumericValue(read.charAt(1)));
-					toX = translate(read.charAt(3));
-					toY = translate(Character.getNumericValue(read.charAt(4)));
-					if(team.equals("White") && wPlayer.movePiece(fromX, fromY, toX, toY)){
-						wrongInput = false;
-					}else if(bPlayer.movePiece(fromX,fromY,toX,toY)){
-						wrongInput = false;
+					System.out.println();
+					fromX = translate(Character.getNumericValue(read.charAt(1)));
+					fromY = translate(read.charAt(0));
+					toX = translate(Character.getNumericValue(read.charAt(4)));
+					toY = translate(read.charAt(3));
+					if(!Board.isEmpty(fromX,fromY) && team.equals("White")){
+						if((temp = wPlayer.movePiece(fromX, fromY, toX, toY)) == 1 || temp == 2){
+							wrongInput = false;
+							if(temp == 2){ 
+								bPlayer.removePiece(Board.board[toX][toY]); //if white obtains an opponent piece, remove that piece from the black player
+							}
+						}else{
+							printError(team);
+						}
+						
+					}else if(!Board.isEmpty(fromX,fromY) && team.equals("Black")){
+						if((temp = bPlayer.movePiece(fromX, fromY, toX, toY)) == 1 || temp == 2){
+							wrongInput = false;
+							if(temp == 2){ 
+								wPlayer.removePiece(Board.board[toX][toY]); //if black obtains an opponent piece, remove that piece from the white player
+							}
+						}else{
+							printError(team);
+						}
 					}else{
-						System.out.println("Illegal move, try again");
-						System.out.print(team + "'s move: ");
+						printError(team);
 					}
 				}else{
-					System.out.println("Illegal move, try again");
-					System.out.print(team + "'s move: ");
+					printError(team);
 				}
 			}
 				
+			if(turn == 1){
+				turn = 0;
+			}else
+				turn = 1;
 			
 		}while(gameStatus == 1);
 		
@@ -136,22 +155,27 @@ public class Chess {
 	public static int translate(char c){
 		
 		switch(c){
-		case 'a':
-			return 0;
-		case 'b':
-			return 1;
-		case 'c':
-			return 2;
-		case 'd':
-			return 3;
-		case 'e':
-			return 4;
-		case 'f':
-			return 5;
-		case 'g':
-			return 6;
-		default:
-			return 7;
+			case 'a':
+				return 0;
+			case 'b':
+				return 1;
+			case 'c':
+				return 2;
+			case 'd':
+				return 3;
+			case 'e':
+				return 4;
+			case 'f':
+				return 5;
+			case 'g':
+				return 6;
+			default:
+				return 7;
+		}
 	}
+	
+	public static void printError(String team){
+		System.out.println("Illegal move, try again");
+		System.out.print(team + "'s move: ");
 	}
 }
