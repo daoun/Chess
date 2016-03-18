@@ -5,6 +5,10 @@ import java.util.Scanner;
 public class Chess {
 
 	static int turn = 1;
+
+	static char pawnPromotionTo = 'a';
+	
+	static int requestForDraw = 0;
 	
 	public static void main(String[] args) {
 		
@@ -26,11 +30,11 @@ public class Chess {
 		boolean wrongInput;
 		String team = "";
 		
-		//
+		//Starting/Destination coordinates
 		int fromX, fromY, toX, toY;
 		
 		//temp int
-		int temp;
+		int temp, temp2;
 		
 		
 		do {
@@ -49,14 +53,25 @@ public class Chess {
 			//Check user input
 			while(wrongInput){
 				
-				if(checkInput(read = scanner.nextLine())){
+				if((temp2 = checkInput(read = scanner.nextLine().toLowerCase())) == 1 || temp2 == 2 || temp2 == 5){
+					
+					if(temp2 == 2){
+						requestForDraw = 1;
+					}else
+						requestForDraw = 0;
+					
+					if(temp2 == 5){
+						pawnPromotionTo = read.charAt(6);
+					}
+					
+					
 					System.out.println();
 					fromX = translate(Character.getNumericValue(read.charAt(1)));
 					fromY = translate(read.charAt(0));
 					toX = translate(Character.getNumericValue(read.charAt(4)));
 					toY = translate(read.charAt(3));
 					if(!Board.isEmpty(fromX,fromY) && team.equals("White")){
-						if((temp = wPlayer.movePiece(fromX, fromY, toX, toY)) == 1 || temp == 2){
+						if((temp = wPlayer.movePiece(fromX, fromY, toX, toY, pawnPromotionTo)) == 1 || temp == 2){
 							wrongInput = false;
 							if(temp == 2){ 
 								bPlayer.removePiece(Board.board[toX][toY]); //if white obtains an opponent piece, remove that piece from the black player
@@ -66,7 +81,7 @@ public class Chess {
 						}
 						
 					}else if(!Board.isEmpty(fromX,fromY) && team.equals("Black")){
-						if((temp = bPlayer.movePiece(fromX, fromY, toX, toY)) == 1 || temp == 2){
+						if((temp = bPlayer.movePiece(fromX, fromY, toX, toY, pawnPromotionTo)) == 1 || temp == 2){
 							wrongInput = false;
 							if(temp == 2){ 
 								wPlayer.removePiece(Board.board[toX][toY]); //if black obtains an opponent piece, remove that piece from the white player
@@ -77,6 +92,12 @@ public class Chess {
 					}else{
 						printError(team);
 					}
+				}else if(temp2 == 3 && requestForDraw == 1){ //accepting draw
+					System.out.println("Game over: The game has ended in a draw.");
+					return;
+				}else if(temp2 == 4){ //resigning
+					System.out.println("Game over: "+ team + " player has resigned.");
+					return;
 				}else{
 					printError(team);
 				}
@@ -93,22 +114,41 @@ public class Chess {
 	}
 	
 	//Method to check whether user input is correctly formatted
-	public static boolean checkInput(String input){
+	public static int checkInput(String input){
 		
 		input = input.toLowerCase();
+				
+		//Requesting a draw
+		if(input.length() == 11 && checkAlpha(input.charAt(0)) && checkDigit(Character.getNumericValue(input.charAt(1))) && checkAlpha(input.charAt(3)) && checkDigit(Character.getNumericValue(input.charAt(4))) && input.substring(6,11).equals("draw?")){
+			return 2;
+		}
 		
+		if(input.equals("resign")){
+			return 4;
+		}
+		
+		//Accepting a draw
+		if(input.equals("draw")){
+			return 3;
+		}
+		
+		//Input for promotion
 		if(input.length() != 5){
-			return false;
+			if(checkAlpha(input.charAt(0)) && checkDigit(Character.getNumericValue(input.charAt(1))) && checkAlpha(input.charAt(3)) && checkDigit(Character.getNumericValue(input.charAt(4))) && input.length() == 7 && input.charAt(2) == ' ' && input.charAt(5) == ' ' && checkPawnPromotion(input.charAt(6))){
+				return 5;
+			}
+			
+			return 0;
 		}
 		
 		if(input.charAt(2) != ' '){
-			return false;
+			return 0;
 		}
 		
 		if(checkAlpha(input.charAt(0)) && checkDigit(Character.getNumericValue(input.charAt(1))) && checkAlpha(input.charAt(3)) && checkDigit(Character.getNumericValue(input.charAt(4)))){
-			return true;
+			return 1;
 		}else{
-			return false;
+			return 0;
 		}
 	}
 
@@ -172,6 +212,14 @@ public class Chess {
 			default:
 				return 7;
 		}
+	}
+	
+	//Check if player indicated a valid promotion
+	public static boolean checkPawnPromotion(char c){
+		if(c == 'r' || c == 'n' || c == 'q' || c == 'b'){
+			return true;
+		}else
+			return false;
 	}
 	
 	public static void printError(String team){

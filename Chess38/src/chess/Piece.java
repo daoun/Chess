@@ -9,7 +9,7 @@ public abstract class Piece {
 	private String team;
 	private int rank;
 	private int file;
-	private int madeFirstMove = 0;
+	private int firstMoveMade = 0;
 
 	
 	public Piece(String type, String team, int rank, int file){
@@ -221,11 +221,11 @@ public abstract class Piece {
 		this.file = file;
 	}
 	
-	public int getMadeFirstMove() {
-		return madeFirstMove;
+	public int getFirstMoveMade() {
+		return firstMoveMade;
 	}
 
-	public void setMadeFirstMove(int madeFirstMove) {
-		this.madeFirstMove = madeFirstMove;
+	public void setFirstMoveMade(int firstMoveMade) {
+		this.firstMoveMade = firstMoveMade;
 	}
 }

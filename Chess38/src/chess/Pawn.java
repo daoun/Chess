@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class Pawn extends Piece {
 	
-	int firstMoveMade = 0;
-
 	public Pawn(String type, String team, int rank, int file){
 		super(type,team,rank,file);
 	}
@@ -21,14 +19,14 @@ public class Pawn extends Piece {
 		
 		//White Pawn
 		if(team.equals("white") && Chess.turn == 1){
-			if(firstMoveMade == 0){ //Check for pawn that hasn't made a move yet
+			if(this.getFirstMoveMade() == 0){ //Check for pawn that hasn't made a move yet
 				if(Board.isEmpty(rank-1,file)){
 					posList.add(new Position(rank-1,file));
 					if(Board.isEmpty(rank-2, file)){ //Pawn can move forward 2 positions if vacant
 						posList.add(new Position(rank-2,file));
 					}
 				}
-				firstMoveMade = 1;
+				//this.setFirstMoveMade(1);
 				return posList;
 			}else if(Board.isEmpty(rank-1,file)){
 				posList.add(new Position(rank-1,file));
@@ -54,14 +52,14 @@ public class Pawn extends Piece {
 				
 			}
 		}else if(team.equals("black") && Chess.turn == 0) { //Black Pawn
-			if(firstMoveMade == 0){ //Check for pawn that hasn't made a move yet
+			if(this.getFirstMoveMade() == 0){ //Check for pawn that hasn't made a move yet
 				if(Board.isEmpty(rank+1,file)){
 					posList.add(new Position(rank+1,file));
 					if(Board.isEmpty(rank+2, file)){ //Pawn can move forward 2 positions if vacant
 						posList.add(new Position(rank+2,file));
 					}
 				}
-				firstMoveMade = 1;
+				//this.setFirstMoveMade(1);
 				return posList;
 			}else if(Board.isEmpty(rank+1,file)){
 				posList.add(new Position(rank+1,file));
