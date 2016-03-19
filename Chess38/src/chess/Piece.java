@@ -41,15 +41,22 @@ public abstract class Piece {
 	public boolean canMove(int rank, int file){
 		List<Position> availablePos = this.availablePositions();
 		
+		boolean canMove = false;
+		
 		//Check to see if target position is valid
 		for(Position p : availablePos){
 			if(p.getRank() == rank && p.getFile() == file){
-				return true;
+				canMove = true;
 			}
 		}
 		
-		return false;
+		
+		
+		return canMove;
 	}
+	
+	//See if the King is in check
+	
 
 	//Find diagonal available positions
 	public List<Position> findDiagonal(){
@@ -188,6 +195,14 @@ public abstract class Piece {
 
 		return posList;
 	}	
+	
+	public boolean equals(Piece p){
+		if(this.getType().equals(p.getType()) && this.getRank() == p.getRank() && this.getFile() == p.getFile()){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	public String getType() {
 		return type;

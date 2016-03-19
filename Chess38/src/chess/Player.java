@@ -1,29 +1,49 @@
 package chess;
 
 public class Player {
-	String[] pieces = new String[16];
+	Piece[] pieces = new Piece[16];
 	String team;
 	
 	public Player(String team){
 		
 		this.team = team;
 		
-		pieces[0] = "rook";
-		pieces[1] = "knight";
-		pieces[2] = "bishop";
-		pieces[3] = "queen";
-		pieces[4] = "king";
-		pieces[5] = "bishop";
-		pieces[6] = "knight";
-		pieces[7] = "rook";
-		pieces[8] = "pawn";
-		pieces[9] = "pawn";
-		pieces[10] = "pawn";
-		pieces[11] = "pawn";
-		pieces[12] = "pawn";
-		pieces[13] = "pawn";
-		pieces[14] = "pawn";
-		pieces[15] = "pawn";
+		if(team.equals("black")){
+			pieces[0] = Board.board[0][0];
+			pieces[1] = Board.board[0][1];
+			pieces[2] = Board.board[0][2];
+			pieces[3] = Board.board[0][3];
+			pieces[4] = Board.board[0][4];
+			pieces[5] = Board.board[0][5];
+			pieces[6] = Board.board[0][6];
+			pieces[7] = Board.board[0][7];
+			pieces[8] = Board.board[1][0];
+			pieces[9] = Board.board[1][1];
+			pieces[10] = Board.board[1][2];
+			pieces[11] = Board.board[1][3];
+			pieces[12] = Board.board[1][4];
+			pieces[13] = Board.board[1][5];
+			pieces[14] = Board.board[1][6];
+			pieces[15] = Board.board[1][7];
+		}else{
+			pieces[0] = Board.board[7][0];
+			pieces[1] = Board.board[7][1];
+			pieces[2] = Board.board[7][2];
+			pieces[3] = Board.board[7][3];
+			pieces[4] = Board.board[7][4];
+			pieces[5] = Board.board[7][5];
+			pieces[6] = Board.board[7][6];
+			pieces[7] = Board.board[7][7];
+			pieces[8] = Board.board[6][0];
+			pieces[9] = Board.board[6][1];
+			pieces[10] = Board.board[6][2];
+			pieces[11] = Board.board[6][3];
+			pieces[12] = Board.board[6][4];
+			pieces[13] = Board.board[6][5];
+			pieces[14] = Board.board[6][6];
+			pieces[15] = Board.board[6][7];
+		}
+		
 		
 		
 	}
@@ -64,6 +84,7 @@ public class Player {
 							pawnPromotionTranslator("white",pawnPromotionTo, toRank, toFile);
 							return 2;
 						}else{
+							pawnPromotionTranslator("white",pawnPromotionTo, toRank, toFile);
 							return 1;
 						}
 					}
@@ -74,6 +95,7 @@ public class Player {
 							pawnPromotionTranslator("black",pawnPromotionTo, toRank, toFile);
 							return 2;
 						}else{
+							pawnPromotionTranslator("white",pawnPromotionTo, toRank, toFile);
 							return 1;
 						}
 					}
@@ -91,6 +113,7 @@ public class Player {
 			}
 			
 			if(!Board.isEmpty(toRank, toFile)){ //if there is an opponent piece at the destination, remove the piece from the player
+				
 				Board.board[toRank][toFile] = Board.board[fromRank][fromFile];
 				Board.board[toRank][toFile].setRank(toRank);
 				Board.board[toRank][toFile].setFile(toFile);
@@ -112,11 +135,13 @@ public class Player {
 	}
 	
 	//remove piece from player
-	public void removePiece(Piece p){
+	public void removePiece(int rank, int file){
 		for(int i = 0 ; i < pieces.length ; i++){
-			if(p.getType().equals(pieces[i])){
-				pieces[i] = null;
-				return;
+			if(pieces[i] != null){
+				if(pieces[i].getRank() == rank && pieces[i].getFile() == file){
+					pieces[i] = null;
+					return;
+				}
 			}
 		}
 	}

@@ -28,8 +28,12 @@ public class Pawn extends Piece {
 				}
 				//this.setFirstMoveMade(1);
 				return posList;
-			}else if(Board.isEmpty(rank-1,file)){
-				posList.add(new Position(rank-1,file));
+			}else{
+				
+				if(Board.isEmpty(rank-1,file)){
+					posList.add(new Position(rank-1,file));
+				}
+				
 				if(file == 0){ // if pawn is on the left edge
 					if(!Board.isEmpty(rank-1, file+1) && Board.board[rank-1][file+1].getTeam().equals("black")){
 						posList.add(new Position(rank-1,file+1));
@@ -61,8 +65,12 @@ public class Pawn extends Piece {
 				}
 				//this.setFirstMoveMade(1);
 				return posList;
-			}else if(Board.isEmpty(rank+1,file)){
-				posList.add(new Position(rank+1,file));
+			}else {
+				
+				if(Board.isEmpty(rank+1,file)){
+					posList.add(new Position(rank+1,file));
+				}
+				
 				if(file == 0){ // if pawn is on the left edge
 					if(!Board.isEmpty(rank+1, file+1) && Board.board[rank+1][file+1].getTeam().equals("white")){
 						posList.add(new Position(rank+1,file+1));

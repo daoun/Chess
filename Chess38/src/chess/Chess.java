@@ -42,6 +42,23 @@ public class Chess {
 			Board.drawBoard();
 			wrongInput = true;
 			
+			//
+			
+			for(int i = 0 ; i < 16 ; i++){
+				if(team.equals("White")){
+					if(bPlayer.pieces[i] != null){
+						System.out.print(bPlayer.pieces[i].getType() + " ");
+					}
+				}else{
+					if(wPlayer.pieces[i] != null){
+						System.out.print(wPlayer.pieces[i].getType() + " ");
+					}
+				}
+			}
+			
+			System.out.println();
+			//
+			
 			if(turn == 1){
 				System.out.print("White's move: ");
 				team = "White";
@@ -74,7 +91,7 @@ public class Chess {
 						if((temp = wPlayer.movePiece(fromX, fromY, toX, toY, pawnPromotionTo)) == 1 || temp == 2){
 							wrongInput = false;
 							if(temp == 2){ 
-								bPlayer.removePiece(Board.board[toX][toY]); //if white obtains an opponent piece, remove that piece from the black player
+								bPlayer.removePiece(toX,toY); //if white obtains an opponent piece, remove that piece from the black player
 							}
 						}else{
 							printError(team);
@@ -84,7 +101,7 @@ public class Chess {
 						if((temp = bPlayer.movePiece(fromX, fromY, toX, toY, pawnPromotionTo)) == 1 || temp == 2){
 							wrongInput = false;
 							if(temp == 2){ 
-								wPlayer.removePiece(Board.board[toX][toY]); //if black obtains an opponent piece, remove that piece from the white player
+								wPlayer.removePiece(toX,toY); //if black obtains an opponent piece, remove that piece from the white player
 							}
 						}else{
 							printError(team);
@@ -130,6 +147,10 @@ public class Chess {
 		//Accepting a draw
 		if(input.equals("draw")){
 			return 3;
+		}
+		
+		if(input.length() < 5){
+			return 0;
 		}
 		
 		//Input for promotion

@@ -129,7 +129,7 @@ public class Board {
 		if(board[rank][file] == null){
 			return true;
 		}else
-			return false;
+ 			return false;
 	}
 	
 	
