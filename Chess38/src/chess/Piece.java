@@ -2,7 +2,12 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Piece is an abstract class that acts as a base to all of the different pieces in the game of chess. It contains many helper functions to help different pieces to find possible positions it can move to. There is one abstract method called availablePositions(), which is implemented in the subclasses.
+ * 
+ * @author Capki Kim, Daoun Oh
+ *
+ */
 public abstract class Piece {
 	
 	private String type;
@@ -11,7 +16,13 @@ public abstract class Piece {
 	private int file;
 	private int firstMoveMade = 0;
 
-	
+	/**
+	 * Default constructor.
+	 * @param type 	indicates what type of piece it is
+	 * @param team	indicates if team is black or white
+	 * @param rank	indicates the vertical position of a piece 
+	 * @param file	indicates the horizontal position of a piece 
+	 */
 	public Piece(String type, String team, int rank, int file){
 		this.type = type;
 		this.team = team;
@@ -19,10 +30,20 @@ public abstract class Piece {
 		this.file = file;
 	}
 	
-	// Abstract function for subclasses to implement to find the available positions of pieces
+	/**
+	 * Abstract function for subclasses to implement to find the available positions of pieces that it can move to 
+	 * @return	list of positions that a piece can move to 
+	 */
 	public abstract List<Position> availablePositions(); 
 	
-	//Adds the position if it is possible
+	/**
+	 * Adds the position to the list if it is valid
+	 * @param x	the file of a piece
+	 * @param y the rank of a piece
+	 * @param posList list that contains the possible positions that a piece can move to
+	 * @return 1 if the position is an empty position,
+	 * 		0 if the position contains a piece from the opposing team
+	 */
 	public int addPosition(int x, int y, List<Position> posList){
 		//Add empty position
 		if(Board.isEmpty(x,y)){
@@ -37,7 +58,13 @@ public abstract class Piece {
 		}
 	}
 	
-	//Sees if the piece can move to a target location
+	/**
+	 * Checks if the piece can move to a target location.
+	 * @param rank the vertical position of the piece
+	 * @param file the horizontal position of the piece
+	 * @return true if the piece is able to move to the given position,
+	 * 			false otherwise
+	 */
 	public boolean canMove(int rank, int file){
 		List<Position> availablePos = this.availablePositions();
 		
@@ -100,7 +127,11 @@ public abstract class Piece {
 		return canMove;
 	}
 	
-	//See if the King is in check
+	/**
+	 * Checks if the King is in check
+	 * @param team the team that check is called upon
+	 * @return true if check otherwise false
+	 */
 	public boolean check(String team){
 		
 		List<Position> positions = new ArrayList<Position>();
@@ -160,7 +191,11 @@ public abstract class Piece {
 		return false; //No opponent piece can get to the King even if the move is made
 	}
 
-	//Find diagonal available positions
+	/**
+	 * Finds all diagonal available positions.
+	 * Upper-left, upper-right, lower-left, and lower-right.
+	 * @return list of all possible diagonal positions
+	 */
 	public List<Position> findDiagonal(){
 		
 		//Initialize list
@@ -232,6 +267,11 @@ public abstract class Piece {
 		return posList;
 	}
 	
+	/**
+	 * Finds all straight available positions. 
+	 * Up, down, right and left.
+	 * @return list of all possible straight positions
+	 */
 	public List<Position> findStraight(){
 		
 		//Initialize list
@@ -298,50 +338,100 @@ public abstract class Piece {
 		return posList;
 	}	
 	
-	public boolean equals(Piece p){
-		if(this.getType().equals(p.getType()) && this.getRank() == p.getRank() && this.getFile() == p.getFile()){
+	/**
+	 * Overrides the equals method. Compares if the piece is equal with its type, file and rank.
+	 * @param piece the piece it is comparing with
+	 * @return true if type, file, and rank is equal, otherwise false.
+	 */
+	public boolean equals(Piece piece){
+		if(this.getType().equals(piece.getType()) && this.getRank() == piece.getRank() && this.getFile() == piece.getFile()){
 			return true;
 		}else{
 			return false;
 		}
 	}
 	
+	/**
+	 * Gets the type of the piece.
+	 * @return a string representation of the type. 
+	 * 		Possible types are bishop, knight, rook, pawn, king, or queen.
+	 */
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * Sets the type of a piece.
+	 * @param type string representation of the type
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
+	/**
+	 * Gets the team of the piece.
+	 * @return a string representation of the team. 
+	 * 		Possible teams are white or black.
+	 */
 	public String getTeam() {
 		return team;
 	}
 
+	/**
+	 * Sets the team of a piece. 
+	 * @param team string representation of the team
+	 */
 	public void setTeam(String team) {
 		this.team = team;
 	}
 
+	/**
+	 * Gets the rank of the piece.
+	 * @return a numerical representation of the rank of a piece.
+	 * 		Possible range is 0-7.
+	 */
 	public int getRank() {
 		return rank;
 	}
 
+	/**
+	 * Sets the rank of a piece
+	 * @param rank numerical representation of a rank of a piece.
+	 */
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
 
+	/**
+	 * Gets the file of the piece.
+	 * @return a numerical representation of a file of a piece.
+	 * 		Possible range is 0-7.
+	 */
 	public int getFile() {
 		return file;
 	}
 
+	/**
+	 * Sets the file of a piece
+	 * @param file numerical representation of a file of a piece.
+	 */
 	public void setFile(int file) {
 		this.file = file;
 	}
 	
+	/**
+	 * Gets the value of the firstMoveMade field.
+	 * @return 1 if first move has been made,
+	 * 		0 otherwise
+	 */
 	public int getFirstMoveMade() {
 		return firstMoveMade;
 	}
 
+	/**
+	 * Sets the value of the firstMoveMade field
+	 * @param firstMoveMade indicator for first move made
+	 */
 	public void setFirstMoveMade(int firstMoveMade) {
 		this.firstMoveMade = firstMoveMade;
 	}

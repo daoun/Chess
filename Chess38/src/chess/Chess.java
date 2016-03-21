@@ -1,7 +1,11 @@
 package chess;
 
 import java.util.Scanner;
-
+/**
+ * Chess class begins the game of chess. 
+ * @author Capki Kim, Daoun Oh
+ * 
+ */
 public class Chess {
 
 	static int turn = 1;
@@ -18,6 +22,10 @@ public class Chess {
 	static Player bPlayer;
 	static Player wPlayer;
 	
+	/**
+	 * Main method starts the game. 
+	 * @param args any command line arguments
+	 */
 	public static void main(String[] args) {
 		
 		//Initialize board
@@ -145,7 +153,15 @@ public class Chess {
 		scanner.close();
 	}
 	
-	//Method to check whether user input is correctly formatted
+	/**
+	 * Method to check whether user input is correctly formatted
+	 * @param input two sets of positions 
+	 * @return 4,
+	 * 		3,
+	 * 		2,
+	 * 		1,
+	 * 		0
+	 */
 	public static int checkInput(String input){
 		
 		input = input.toLowerCase();
@@ -188,6 +204,12 @@ public class Chess {
 		}
 	}
 
+	/**
+	 * Checks if input value for file is correct
+	 * @param c input file value
+	 * @return true if value is valid (between a-h)
+	 * 		false otherwise
+	 */
 	public static boolean checkAlpha(char c){
 		if(Character.isLetter(c) && c == 'a' ||c == 'b' ||c == 'c' ||c == 'd' ||c == 'e' ||c == 'f' ||c == 'g' ||c == 'h'){
 			return true;
@@ -196,6 +218,12 @@ public class Chess {
 		}
 	}
 	
+	/**
+	 * Checks if input value for rank is correct
+	 * @param i input rank value
+	 * @return true if value is valid (between 1-8)
+	 * 		false otherwise
+	 */
 	public static boolean checkDigit(int i){
 		
 		if(i > 8 || i < 1){
@@ -206,7 +234,11 @@ public class Chess {
 		
 	}
 	
-	// Translate user input to corresponding coordinates on the board
+	/**
+	 * Translate user input rank value to corresponding coordinates on the board
+	 * @param i input rank value
+	 * @return translated rank value 
+	 */
 	public static int translate(int i){
 		switch(i){
 			case 8:
@@ -228,6 +260,11 @@ public class Chess {
 		}
 	}
 	
+	/**
+	 * Translate user input file value to corresponding coordinates on the board
+	 * @param c input file value
+	 * @return translated file value
+	 */
 	public static int translate(char c){
 		
 		switch(c){
@@ -250,7 +287,12 @@ public class Chess {
 		}
 	}
 	
-	//Check if player indicated a valid promotion
+	/**
+	 * Checks if player indicated a valid promotion
+	 * @param c requested promotion
+	 * @return true if requested promotion is valid
+	 * 		false otherwise
+	 */
 	public static boolean checkPawnPromotion(char c){
 		if(c == 'r' || c == 'n' || c == 'q' || c == 'b'){
 			return true;
@@ -258,6 +300,10 @@ public class Chess {
 			return false;
 	}
 	
+	/**
+	 * Prints the error
+	 * @param team indicates what team created the error
+	 */
 	public static void printError(String team){
 		System.out.println("Illegal move, try again");
 		System.out.print(team + "'s move: ");

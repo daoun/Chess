@@ -2,13 +2,29 @@ package chess;
 
 import java.util.ArrayList;
 
+/**
+ * Pawn class implements the rules of the pawn piece. 
+ * The main purpose for this class is to get all of the possible available positions that the pawn piece can move to. 
+ * @author Capki Kim, Daoun Oh
+ *
+ */
 public class Pawn extends Piece {
 	
+	/**
+	 * Default constructor. 
+	 * @param type 	indicates what type of piece it is
+	 * @param team	indicates if team is black or white
+	 * @param rank	indicates the vertical position of a piece 
+	 * @param file	indicates the horizontal position of a piece 
+	 */
 	public Pawn(String type, String team, int rank, int file){
 		super(type,team,rank,file);
 	}
 	
-	@Override
+	/**
+	 * Finds the possible movable positions of a pawn.
+	 * @return	list of positions that a pawn can move to 
+	 */
 	public ArrayList<Position> availablePositions() {
 		
 		//Initialize list

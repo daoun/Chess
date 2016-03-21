@@ -1,11 +1,17 @@
 package chess;
 
+/**
+ * Board class creates the game board. The board consists of 8 rows, aka file, and 8 columns, aka rank. 
+ * 
+ * @author Capki Kim, Daoun Oh
+ *
+ */
 public class Board {
 	static Piece[][] board = new Piece[8][8];
 	
-	//initialize
-	
-	
+	/**
+	 * Initializes the board to its initial set up.
+	 */
 	public static void init(){
 		
 		board[0][0] = new Rook("rook","black",0,0);
@@ -42,6 +48,9 @@ public class Board {
 		board[6][7] = new Pawn("pawn","white",6,7);
 	}
 	
+	/**
+	 * Prints the current state of the board out to the console.
+	 */
 	public static void drawBoard(){
 		
 		String type = "";
@@ -124,7 +133,13 @@ public class Board {
 		System.out.println();
 	}
 	
-	//Check if a position in board is empty
+	/**
+	 * Checks if a position in the board is empty.
+	 * @param rank the vertical position of the piece
+	 * @param file the horizontal position of the piece
+	 * @return true if the position is empty,
+	 * 		false otherwise
+	 */
 	public static boolean isEmpty(int rank, int file){
 		if(board[rank][file] == null){
 			return true;

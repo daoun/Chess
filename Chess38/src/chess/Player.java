@@ -1,9 +1,18 @@
 package chess;
 
+/**
+ * Player class creates a player for the game. 
+ * 
+ * @author Capki Kim, Daoun Oh
+ *
+ */
 public class Player {
 	Piece[] pieces = new Piece[16];
 	String team;
-	
+	/**
+	 * default constructor.
+	 * @param team a string representation of the player's team 
+	 */
 	public Player(String team){
 		
 		this.team = team;
@@ -48,7 +57,17 @@ public class Player {
 		
 	}
 	
-	// movePiece moves the target piece to the location that the player indicated
+	/**
+	 * Moves the target piece to the location that the player indicated.
+	 * @param fromRank vertical position of the specified piece
+	 * @param fromFile horizontal position of the specified piece
+	 * @param toRank vertical position of the target position
+	 * @param toFile horizontal position of the target position
+	 * @param pawnPromotionTo
+	 * @return 0,
+	 * 		1,
+	 * 		2
+	 */
 	public int movePiece(int fromRank, int fromFile, int toRank, int toFile, char pawnPromotionTo){
 		
 		Piece piece = Board.board[fromRank][fromFile];
@@ -134,7 +153,11 @@ public class Player {
 		
 	}
 	
-	//remove piece from player
+	/**
+	 * Removes the specified piece from the player.
+	 * @param rank vertical position of the specified piece
+	 * @param file horizontal position of the specified piece
+	 */
 	public void removePiece(int rank, int file){
 		for(int i = 0 ; i < pieces.length ; i++){
 			if(pieces[i] != null){
@@ -146,13 +169,25 @@ public class Player {
 		}
 	}
 	
-	//Checks if a pawn is eligible for pawn promotion
+	/**
+	 * Checks if a pawn is eligible for pawn promotion.
+	 * @param toRank vertical position of the target position
+	 * @param toFile horizontal position of the target position
+	 * @param team indicates what team it is for
+	 */
 	public void pawnPromotion(int toRank, int toFile, String team){
 		if(team.equals("black") && toRank == 0){
 			
 		}
 	}
 	
+	/**
+	 * Pawn promotion translator creates a new instance of the piece the pawn is promoting to.
+	 * @param team indicates the team
+	 * @param pawnPromotionTo indicates what piece the pawn is promoting to
+	 * @param toRank vertical position of the new piece
+	 * @param toFile horizontal position of the new piece
+	 */
 	public void pawnPromotionTranslator(String team, char pawnPromotionTo, int toRank, int toFile){
 		
 		switch(pawnPromotionTo)
