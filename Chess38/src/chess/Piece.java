@@ -50,13 +50,115 @@ public abstract class Piece {
 			}
 		}
 		
+		//if the piece cannot move to target location
+		if(canMove == false){
+			return false;
+		}
 		
+		//save the piece temporarily
+		Piece tempPiece = null;
+		int fromRank = this.getRank();
+		int fromFile = this.getFile();
+		if(!Board.isEmpty(rank, file)){
+			tempPiece = Board.board[rank][file];
+		}
+		
+		//Move the piece
+		Board.board[rank][file] = Board.board[fromRank][fromFile];
+		Board.board[rank][file].setRank(rank);
+		Board.board[rank][file].setFile(file);
+		Board.board[fromRank][fromFile] = null;
+		
+		String team = this.getTeam();
+		
+		//See if any of the opponent pieces can get to the King
+		if(check(team)){
+			canMove = false;
+		}
+		
+		//if moving the piece results in the opponent being in check
+		if(team.equals("white")){
+			if(check("black")){
+				Chess.bCheck = 1;
+			}
+		}else{
+			if(check("white")){
+				Chess.wCheck = 1;
+			}
+		}
+		
+		//Move the piece(s) back
+		Board.board[fromRank][fromFile] = Board.board[rank][file];
+		Board.board[fromRank][fromFile].setRank(fromRank);
+		Board.board[fromRank][fromFile].setFile(fromFile);
+		Board.board[rank][file] = null;
+		
+		if(tempPiece != null){
+			Board.board[rank][file] = tempPiece;
+		}
 		
 		return canMove;
 	}
 	
 	//See if the King is in check
-	
+	public boolean check(String team){
+		
+		List<Position> positions = new ArrayList<Position>();
+		
+		int kingRank = 0;
+		int kingFile = 0;
+		
+		if(team.equals("white")){
+			
+			//Find coordinate of white King
+			for(int i = 0 ; i < Chess.wPlayer.pieces.length ; i++){
+				if(Chess.wPlayer.pieces[i] != null){
+					if(Chess.wPlayer.pieces[i].getType().equals("king")){
+						kingRank = Chess.wPlayer.pieces[i].getRank();
+						kingFile = Chess.wPlayer.pieces[i].getFile();
+						break;
+					}
+				}
+			}
+			
+			for(int i = 0; i < Chess.bPlayer.pieces.length ; i++){ //Check all the black pieces
+				if(Chess.bPlayer.pieces[i] != null){
+ 					positions = Chess.bPlayer.pieces[i].availablePositions();
+					for(Position p : positions){
+						if(p.getRank() == kingRank && p.getFile() == kingFile){
+							return true;
+						}
+					}
+				}
+			}
+		}else{
+			
+			//Find coordinate of black King
+			for(int i = 0 ; i < Chess.bPlayer.pieces.length ; i++){
+				if(Chess.bPlayer.pieces[i] != null){
+					if(Chess.bPlayer.pieces[i].getType().equals("king")){
+						kingRank = Chess.bPlayer.pieces[i].getRank();
+						kingFile = Chess.bPlayer.pieces[i].getFile();
+					}
+				}
+			}
+			
+			for(int i = 0; i < Chess.wPlayer.pieces.length ; i++){ //Check all the white pieces
+				if(Chess.wPlayer.pieces[i] != null){
+					positions = Chess.wPlayer.pieces[i].availablePositions();
+					for(Position p : positions){
+						if(p.getRank() == kingRank && p.getFile() == kingFile){
+							return true;
+						}
+					}
+				}
+			}
+			
+			
+		}
+		
+		return false; //No opponent piece can get to the King even if the move is made
+	}
 
 	//Find diagonal available positions
 	public List<Position> findDiagonal(){

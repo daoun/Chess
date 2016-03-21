@@ -10,15 +10,24 @@ public class Chess {
 	
 	static int requestForDraw = 0;
 	
+	static int bCheck = 0;
+	
+	static int wCheck = 0;
+
+	//Declare players
+	static Player bPlayer;
+	static Player wPlayer;
+	
 	public static void main(String[] args) {
 		
 		//Initialize board
 		Board.init();
 		
-		//Initialize player
-		Player bPlayer = new Player("black");
-		Player wPlayer = new Player("white");
+		//Initialize players
+		bPlayer = new Player("black");
+		wPlayer = new Player("white");
 		
+				
 		//Scanner to read user input
 		Scanner scanner = new Scanner(System.in);
 		String read = "";
@@ -46,11 +55,11 @@ public class Chess {
 			
 			for(int i = 0 ; i < 16 ; i++){
 				if(team.equals("White")){
-					if(bPlayer.pieces[i] != null){
+					if(Chess.bPlayer.pieces[i] != null){
 						System.out.print(bPlayer.pieces[i].getType() + " ");
 					}
 				}else{
-					if(wPlayer.pieces[i] != null){
+					if(Chess.wPlayer.pieces[i] != null){
 						System.out.print(wPlayer.pieces[i].getType() + " ");
 					}
 				}
@@ -60,9 +69,15 @@ public class Chess {
 			//
 			
 			if(turn == 1){
+				if(wCheck == 1){
+					System.out.println("Check");
+				}
 				System.out.print("White's move: ");
 				team = "White";
 			}else{
+				if(bCheck == 1){
+					System.out.println("Check");
+				}
 				System.out.print("Black's move: ");
 				team = "Black";
 			}
