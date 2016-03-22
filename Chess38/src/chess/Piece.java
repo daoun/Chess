@@ -522,8 +522,8 @@ public abstract class Piece {
 	 * @param piece the piece it is comparing with
 	 * @return true if type, file, and rank is equal, otherwise false.
 	 */
-	public boolean equals(Piece p){
-		if(this.getType().equals(p.getType()) && this.getRank() == p.getRank() && this.getFile() == p.getFile()){
+	public boolean equals(Piece piece){
+		if(this.getType().equals(piece.getType()) && this.getRank() == piece.getRank() && this.getFile() == piece.getFile()){
 			return true;
 		}else{
 			return false;
