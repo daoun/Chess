@@ -23,6 +23,8 @@ public class Pawn extends Piece {
 	
 	/**
 	 * Finds the possible movable positions of a pawn.
+	 * Also identifies when there is an event of En passant.
+	 * 
 	 * @return	list of positions that a pawn can move to 
 	 */
 	public ArrayList<Position> availablePositions() {
@@ -41,13 +43,6 @@ public class Pawn extends Piece {
 					if(Board.isEmpty(rank-2, file)){ //Pawn can move forward 2 positions if vacant
 						posList.add(new Position(rank-2,file));
 					}
-				}
-				//this.setFirstMoveMade(1);
-				return posList;
-			}else{
-				
-				if(Board.isEmpty(rank-1,file)){
-					posList.add(new Position(rank-1,file));
 				}
 				
 				if(file == 0){ // if pawn is on the left edge
@@ -70,6 +65,52 @@ public class Pawn extends Piece {
 					posList.add(new Position(rank-1,file+1));
 				}
 				
+				return posList;
+			}else{
+				
+				if(Board.isEmpty(rank-1,file)){
+					posList.add(new Position(rank-1,file));
+				}
+				
+				
+				if(file == 0){ // if pawn is on the left edge
+					if(!Board.isEmpty(rank-1, file+1) && Board.board[rank-1][file+1].getTeam().equals("black")){
+						posList.add(new Position(rank-1,file+1));
+						return posList;
+					}
+					
+					if(!Board.isEmpty(rank, file+1) && Board.board[rank][file+1].getPawnTwoAdvance() == 1){ //En passant
+						posList.add(new Position(rank-1,file+1));
+						return posList;
+					}
+					
+				}else if(file == 7){ //if pawn is on the right edge
+					if(!Board.isEmpty(rank-1, file-1) && Board.board[rank-1][file-1].getTeam().equals("black")){
+						posList.add(new Position(rank-1,file-1));
+						return posList;
+					}
+					
+					if(!Board.isEmpty(rank, file-1) && Board.board[rank][file-1].getPawnTwoAdvance() == 1){ //En passant
+						posList.add(new Position(rank-1,file-1));
+						return posList;
+					}
+					
+				}else if(!Board.isEmpty(rank-1, file-1) && Board.board[rank-1][file-1].getTeam().equals("black")){
+						posList.add(new Position(rank-1,file-1));
+						if(!Board.isEmpty(rank-1, file+1) && Board.board[rank-1][file+1].getTeam().equals("black")){
+							posList.add(new Position(rank-1,file+1));
+						}
+						return posList;
+				}else if(!Board.isEmpty(rank-1, file+1) && Board.board[rank-1][file+1].getTeam().equals("black")){
+					posList.add(new Position(rank-1,file+1));
+				}else if(!Board.isEmpty(rank, file+1) && Board.board[rank][file+1].getPawnTwoAdvance() == 1){ //En passant
+					posList.add(new Position(rank-1,file+1));
+					return posList;
+				}else if(!Board.isEmpty(rank, file-1) && Board.board[rank][file-1].getPawnTwoAdvance() == 1){ //En passant
+					posList.add(new Position(rank-1,file-1));
+					return posList;
+				}
+				
 			}
 		}else if(team.equals("black") && Chess.turn == 0) { //Black Pawn
 			if(this.getFirstMoveMade() == 0){ //Check for pawn that hasn't made a move yet
@@ -78,13 +119,6 @@ public class Pawn extends Piece {
 					if(Board.isEmpty(rank+2, file)){ //Pawn can move forward 2 positions if vacant
 						posList.add(new Position(rank+2,file));
 					}
-				}
-				//this.setFirstMoveMade(1);
-				return posList;
-			}else {
-				
-				if(Board.isEmpty(rank+1,file)){
-					posList.add(new Position(rank+1,file));
 				}
 				
 				if(file == 0){ // if pawn is on the left edge
@@ -106,13 +140,56 @@ public class Pawn extends Piece {
 				}else if(!Board.isEmpty(rank+1, file-1) && Board.board[rank+1][file-1].getTeam().equals("white")){
 					posList.add(new Position(rank+1,file-1));
 				}
+				
+				return posList;
+			}else {
+				
+				if(Board.isEmpty(rank+1,file)){
+					posList.add(new Position(rank+1,file));
+				}
+				
+				if(file == 0){ // if pawn is on the left edge
+					if(!Board.isEmpty(rank+1, file+1) && Board.board[rank+1][file+1].getTeam().equals("white")){
+						posList.add(new Position(rank+1,file+1));
+						return posList;
+					}
+					
+					if(!Board.isEmpty(rank, file+1) && Board.board[rank][file+1].getPawnTwoAdvance() == 1){ //En passant
+						posList.add(new Position(rank+1,file+1));
+						return posList;
+					}
+					
+				}else if(file == 7){ //if pawn is on the right edge
+					if(!Board.isEmpty(rank+1, file-1) && Board.board[rank+1][file-1].getTeam().equals("white")){
+						posList.add(new Position(rank+1,file-1));
+						return posList;
+					}
+					
+					if(!Board.isEmpty(rank, file-1) && Board.board[rank][file-1].getPawnTwoAdvance() == 1){ //En passant
+						posList.add(new Position(rank+1,file-1));
+						return posList;
+					}
+					
+				}else if(!Board.isEmpty(rank+1, file+1) && Board.board[rank+1][file+1].getTeam().equals("white")){
+						posList.add(new Position(rank+1,file+1));
+						if(!Board.isEmpty(rank+1, file-1) && Board.board[rank+1][file-1].getTeam().equals("white")){
+							posList.add(new Position(rank+1,file-1));
+						}
+						return posList;
+				}else if(!Board.isEmpty(rank+1, file-1) && Board.board[rank+1][file-1].getTeam().equals("white")){
+					posList.add(new Position(rank+1,file-1));
+				}else if(!Board.isEmpty(rank, file+1) && Board.board[rank][file+1].getPawnTwoAdvance() == 1){ //En passant
+					posList.add(new Position(rank+1,file+1));
+					return posList;
+				}else if(!Board.isEmpty(rank, file-1) && Board.board[rank][file-1].getPawnTwoAdvance() == 1){ //En passant
+					posList.add(new Position(rank+1,file-1));
+					return posList;
+				}
 			}
 		}		
 		
 		return posList;
 	}
-
-	
 	
 
 }

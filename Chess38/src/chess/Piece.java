@@ -15,6 +15,8 @@ public abstract class Piece {
 	private int rank;
 	private int file;
 	private int firstMoveMade = 0;
+	private int castlingMoveMade = 0;
+	private int pawnTwoAdvance = 0;
 
 	/**
 	 * Default constructor.
@@ -31,7 +33,7 @@ public abstract class Piece {
 	}
 	
 	/**
-	 * Abstract function for subclasses to implement to find the available positions of pieces that it can move to 
+	 * Abstract method for subclasses to implement to find the available positions of pieces that it can move to 
 	 * @return	list of positions that a piece can move to 
 	 */
 	public abstract List<Position> availablePositions(); 
@@ -98,6 +100,15 @@ public abstract class Piece {
 		
 		String team = this.getTeam();
 		
+		//Temporarily move piece from the player
+		if(tempPiece != null){
+			if(team.equals("black")){
+				Chess.wPlayer.removePiece(rank, file);
+			}else{
+				Chess.bPlayer.removePiece(rank, file);
+			}
+		}
+		
 		//See if any of the opponent pieces can get to the King
 		if(check(team)){
 			canMove = false;
@@ -106,11 +117,18 @@ public abstract class Piece {
 		//if moving the piece results in the opponent being in check
 		if(team.equals("white")){
 			if(check("black")){
+				if(checkMate("black")){
+					Chess.gameStatus = 0;
+				}
 				Chess.bCheck = 1;
 			}
 		}else{
 			if(check("white")){
+				if(checkMate("white")){
+					Chess.gameStatus = 0;
+				}
 				Chess.wCheck = 1;
+				
 			}
 		}
 		
@@ -120,11 +138,159 @@ public abstract class Piece {
 		Board.board[fromRank][fromFile].setFile(fromFile);
 		Board.board[rank][file] = null;
 		
+		//Give piece back to player & board
 		if(tempPiece != null){
 			Board.board[rank][file] = tempPiece;
+			if(team.equals("black")){
+				Chess.wPlayer.addPiece(tempPiece);
+			}else{
+				Chess.bPlayer.addPiece(tempPiece);
+			}
 		}
 		
 		return canMove;
+	}
+	
+	/**
+	 * Checks for checkmate 
+	 * @param team the team that is being checked for a checkmate
+	 * @return true if checkmate,
+	 * 		false otherwise
+	 */
+	public boolean checkMate(String team){
+		
+		//need to try every possible position that 'team' pieces can go to and if check is still there, it is checkmate
+		
+		List<Position> availablePos = new ArrayList<Position>();
+		Piece tempPiece = null;
+		int fromRank = 0;
+		int fromFile = 0;
+		boolean checkmate = true;
+		
+		if(team.equals("white")){
+			for(int i = 0 ; i < Chess.wPlayer.pieces.length ; i++){
+				
+				if(Chess.wPlayer.pieces[i] != null){
+						availablePos = Chess.wPlayer.pieces[i].availablePositions();
+				}else{
+					continue;
+				}
+					
+				for(Position p : availablePos){
+					//save the piece temporarily
+					tempPiece = null;
+					fromRank = Chess.wPlayer.pieces[i].getRank();
+					fromFile = Chess.wPlayer.pieces[i].getFile();
+					
+					if(!Board.isEmpty(p.getRank(), p.getFile())){
+						tempPiece = Board.board[p.getRank()][p.getFile()];
+					}
+					
+					//Move the piece
+					Board.board[p.getRank()][p.getFile()] = Board.board[fromRank][fromFile];
+					Board.board[p.getRank()][p.getFile()].setRank(p.getRank());
+					Board.board[p.getRank()][p.getFile()].setFile(p.getFile());
+					Board.board[fromRank][fromFile] = null;
+					
+					//Temporarily move piece from the player
+					if(tempPiece != null){
+						if(team.equals("black")){
+							Chess.wPlayer.removePiece(p.getRank(), p.getFile());
+						}else{
+							Chess.bPlayer.removePiece(p.getRank(), p.getFile());
+						}
+					}
+					
+					if(!check(team)){
+						checkmate = false;
+					}
+					
+					//Move the piece(s) back
+					Board.board[fromRank][fromFile] = Board.board[p.getRank()][p.getFile()];
+					Board.board[fromRank][fromFile].setRank(fromRank);
+					Board.board[fromRank][fromFile].setFile(fromFile);
+					Board.board[p.getRank()][p.getFile()] = null;
+					
+					//Give piece back to player & board
+					if(tempPiece != null){
+						Board.board[p.getRank()][p.getFile()] = tempPiece;
+						if(team.equals("black")){
+							Chess.wPlayer.addPiece(tempPiece);
+						}else{
+							Chess.bPlayer.addPiece(tempPiece);
+						}
+					}
+					
+					if(checkmate == false){
+						return checkmate;
+					}
+					
+				}
+			}
+		}else{
+			for(int i = 0 ; i < Chess.bPlayer.pieces.length ; i++){
+
+				if(Chess.bPlayer.pieces[i] != null){
+					availablePos = Chess.bPlayer.pieces[i].availablePositions();
+				}else{
+					continue;
+				}
+				
+				for(Position p : availablePos){
+					//save the piece temporarily
+					tempPiece = null;
+					fromRank = Chess.bPlayer.pieces[i].getRank();
+					fromFile = Chess.bPlayer.pieces[i].getFile();
+					
+					if(!Board.isEmpty(p.getRank(), p.getFile())){
+						tempPiece = Board.board[p.getRank()][p.getFile()];
+					}
+					
+					//Move the piece
+					Board.board[p.getRank()][p.getFile()] = Board.board[fromRank][fromFile];
+					Board.board[p.getRank()][p.getFile()].setRank(p.getRank());
+					Board.board[p.getRank()][p.getFile()].setFile(p.getFile());
+					Board.board[fromRank][fromFile] = null;
+					
+					//Temporarily move piece from the player
+					if(tempPiece != null){
+						if(team.equals("black")){
+							Chess.wPlayer.removePiece(p.getRank(), p.getFile());
+						}else{
+							Chess.bPlayer.removePiece(p.getRank(), p.getFile());
+						}
+					}
+					
+					if(!check(team)){
+						checkmate = false;
+					}
+					
+					//Move the piece(s) back
+					Board.board[fromRank][fromFile] = Board.board[p.getRank()][p.getFile()];
+					Board.board[fromRank][fromFile].setRank(fromRank);
+					Board.board[fromRank][fromFile].setFile(fromFile);
+					Board.board[p.getRank()][p.getFile()] = null;
+					
+					//Give piece back to player & board
+					if(tempPiece != null){
+						Board.board[p.getRank()][p.getFile()] = tempPiece;
+						if(team.equals("black")){
+							Chess.wPlayer.addPiece(tempPiece);
+						}else{
+							Chess.bPlayer.addPiece(tempPiece);
+						}
+					}
+					
+					
+					if(checkmate == false){
+						return checkmate;
+					}
+					
+				}
+			}
+		}
+		
+		return checkmate;
 	}
 	
 	/**
@@ -197,76 +363,76 @@ public abstract class Piece {
 	 * @return list of all possible diagonal positions
 	 */
 	public List<Position> findDiagonal(){
-		
+	
 		//Initialize list
 		List<Position> posList = new ArrayList<Position>();
-		
+	
 		int rank = this.getRank() - 1;
 		int file = this.getFile() - 1;
-		
+	
 		//Check upper-left diagonal
 		while(rank >= 0 && file >= 0){
-			
+	
 			//Add positions
 			if(addPosition(rank,file,posList) == 0){
 				break; // break out of loop if position contains an opponent or ally piece
 			}
-			
+	
 			rank--;
 			file--;
 		}
-		
+	
 		//Initialize
 		rank = this.getRank() + 1;
 		file = this.getFile() - 1;
-		
+	
 		//Check lower-left diagonal
 		while(rank <= 7 && file >= 0){
-			
+	
 			//Add positions
 			if(addPosition(rank,file,posList) == 0){
 				break; // break out of loop if position contains an opponent or ally piece
 			}
-			
+	
 			rank++;
 			file--;
 		}
-		
+	
 		//Initialize
 		rank = this.getRank() - 1;
 		file = this.getFile() + 1;
-				
+	
 		//Check lower-right diagonal
 		while(rank >= 0 && file <= 7){
-			
+	
 			//Add positions
 			if(addPosition(rank,file,posList) == 0){
 				break; // break out of loop if position contains an opponent or ally piece
 			}
-			
+	
 			rank--;
 			file++;
 		}				
-		
+	
 		//Initialize
 		rank = this.getRank() + 1;
 		file = this.getFile() + 1;
-		
+	
 		//Check lower-right diagonal
 		while(rank <= 7 && file <= 7){
-			
+	
 			//Add positions
 			if(addPosition(rank,file,posList) == 0){
 				break; // break out of loop if position contains an opponent or ally piece
 			}
-			
+	
 			rank++;
 			file++;
 		}		
-		
+	
 		return posList;
 	}
-	
+
 	/**
 	 * Finds all straight available positions. 
 	 * Up, down, right and left.
@@ -336,15 +502,15 @@ public abstract class Piece {
 		}		
 
 		return posList;
-	}	
+	}
 	
 	/**
 	 * Overrides the equals method. Compares if the piece is equal with its type, file and rank.
 	 * @param piece the piece it is comparing with
 	 * @return true if type, file, and rank is equal, otherwise false.
 	 */
-	public boolean equals(Piece piece){
-		if(this.getType().equals(piece.getType()) && this.getRank() == piece.getRank() && this.getFile() == piece.getFile()){
+	public boolean equals(Piece p){
+		if(this.getType().equals(p.getType()) && this.getRank() == p.getRank() && this.getFile() == p.getFile()){
 			return true;
 		}else{
 			return false;
@@ -421,8 +587,7 @@ public abstract class Piece {
 	
 	/**
 	 * Gets the value of the firstMoveMade field.
-	 * @return 1 if first move has been made,
-	 * 		0 otherwise
+	 * @return value of firstMoveMade
 	 */
 	public int getFirstMoveMade() {
 		return firstMoveMade;
@@ -434,5 +599,36 @@ public abstract class Piece {
 	 */
 	public void setFirstMoveMade(int firstMoveMade) {
 		this.firstMoveMade = firstMoveMade;
+	}
+	/**
+	 * Gets the value of the castling move made
+	 * @return value of castlingMoveMade
+	 */
+	public int getCastlingMoveMade(){
+		return this.castlingMoveMade;
+	}
+	
+	/**
+	 * Set the value of castlingMoveMade field
+	 * @param move number to be set as the value of castlingMoveMade
+	 */
+	public void setCastlingMoveMade(int move){
+		this.castlingMoveMade = move;
+	}
+	
+	/**
+	 * Gets the value of pawnTwoAdvance
+	 * @return value of pawnTwoAdvance
+	 */
+	public int getPawnTwoAdvance() {
+		return pawnTwoAdvance;
+	}
+
+	/**
+	 * Set the value of pawnTwoAdvance field
+	 * @param pawnTwoAdvance the number to be set as the value of pawnTwoAdvance 
+	 */
+	public void setPawnTwoAdvance(int pawnTwoAdvance) {
+		this.pawnTwoAdvance = pawnTwoAdvance;
 	}
 }

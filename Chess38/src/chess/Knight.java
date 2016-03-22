@@ -25,7 +25,7 @@ public class Knight extends Piece {
 	 * Finds the possible movable positions of a knight.
 	 * @return	list of positions that a knight can move to 
 	 */
-	public List<Position> availablePositions() {
+public List<Position> availablePositions() {
 		
 		List<Position> posList = new ArrayList<Position>();
 
@@ -68,8 +68,5 @@ public class Knight extends Piece {
 		return posList;
 		
 	}
-
-
-
 
 }

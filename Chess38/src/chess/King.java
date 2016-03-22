@@ -10,9 +10,6 @@ import java.util.List;
  */
 public class King extends Piece{
 	
-	int madeFirstMove = 0;
-	int castlingMoveMade = 0;
-
 	/**
 	 * Default constructor. 
 	 * @param type 	indicates what type of piece it is
@@ -26,6 +23,8 @@ public class King extends Piece{
 	
 	/**
 	 * Finds the possible movable positions of a king.
+	 * Also identifies when there is an event of castling.
+	 * 
 	 * @return	list of positions that a king can move to 
 	 */
 	public List<Position> availablePositions() {
@@ -68,6 +67,28 @@ public class King extends Piece{
 		}
 		
 		//Castling
+		if(this.getTeam().equals("white")){
+			if(this.getFirstMoveMade() == 0 && this.getCastlingMoveMade() == 0){
+				
+					if(Board.isEmpty(rank, file+1) && Board.isEmpty(rank, file+2) && (!Board.isEmpty(rank, file+3) && Board.board[rank][file+3].getType().equals("rook") && Board.board[rank][file+3].getFirstMoveMade() == 0) && Board.board[rank][file+3].getTeam().equals(this.getTeam())){
+						this.addPosition(rank, file+2 , posList);
+					} 
+					
+					if(Board.isEmpty(rank, file-1) && Board.isEmpty(rank, file-2) && Board.isEmpty(rank, file-3) && (!Board.isEmpty(rank, file-4) && Board.board[rank][file-4].getType().equals("rook") && Board.board[rank][file-4].getFirstMoveMade() == 0) && Board.board[rank][file-4].getTeam().equals(this.getTeam())){
+						this.addPosition(rank, file-2, posList);
+					}
+			}
+		}else{
+			if(this.getFirstMoveMade() == 0 && this.getCastlingMoveMade() == 0){
+				if(Board.isEmpty(rank, file-1) && Board.isEmpty(rank, file-2) && Board.isEmpty(rank, file-3) && (!Board.isEmpty(rank, file-4) && Board.board[rank][file-4].getType().equals("rook") && Board.board[rank][file-4].getFirstMoveMade() == 0) && Board.board[rank][file-4].getTeam().equals(this.getTeam())){
+					this.addPosition(rank, file-2 , posList);
+				}
+				
+				if(Board.isEmpty(rank, file+1) && Board.isEmpty(rank, file+2) && (!Board.isEmpty(rank, file+3) && Board.board[rank][file+3].getType().equals("rook") && Board.board[rank][file+3].getFirstMoveMade() == 0) && Board.board[rank][file+3].getTeam().equals(this.getTeam())){
+					this.addPosition(rank, file+2, posList);
+				}
+			}
+		}
 		
 		return posList;
 	}

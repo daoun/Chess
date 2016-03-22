@@ -17,6 +17,8 @@ public class Chess {
 	static int bCheck = 0;
 	
 	static int wCheck = 0;
+	
+	static int gameStatus = 1;
 
 	//Declare players
 	static Player bPlayer;
@@ -24,6 +26,10 @@ public class Chess {
 	
 	/**
 	 * Main method starts the game. 
+	 * During the game, if there are special events such as resign, draw, check, checkmate, and pawn promotion, it is caught in this method. 
+	 * Also identifies illegal moves or input, and if a piece catches another piece.
+	 * Lastly, identifies the winner of the game. 
+	 * 
 	 * @param args any command line arguments
 	 */
 	public static void main(String[] args) {
@@ -37,11 +43,9 @@ public class Chess {
 		
 				
 		//Scanner to read user input
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		String read = "";
-		
-		//To check status of game
-		int gameStatus = 1;
 		
 		//Variable used to check input
 		boolean wrongInput;
@@ -59,34 +63,21 @@ public class Chess {
 			Board.drawBoard();
 			wrongInput = true;
 			
-			//
-			
-			for(int i = 0 ; i < 16 ; i++){
-				if(team.equals("White")){
-					if(Chess.bPlayer.pieces[i] != null){
-						System.out.print(bPlayer.pieces[i].getType() + " ");
-					}
-				}else{
-					if(Chess.wPlayer.pieces[i] != null){
-						System.out.print(wPlayer.pieces[i].getType() + " ");
-					}
-				}
-			}
-			
-			System.out.println();
-			//
-			
 			if(turn == 1){
 				if(wCheck == 1){
 					System.out.println("Check");
+					wCheck = 0;
 				}
 				System.out.print("White's move: ");
+				System.out.println();
 				team = "White";
 			}else{
 				if(bCheck == 1){
 					System.out.println("Check");
+					bCheck = 0;
 				}
 				System.out.print("Black's move: ");
+				System.out.println();
 				team = "Black";
 			}
 			
@@ -106,6 +97,7 @@ public class Chess {
 					
 					
 					System.out.println();
+					
 					fromX = translate(Character.getNumericValue(read.charAt(1)));
 					fromY = translate(read.charAt(0));
 					toX = translate(Character.getNumericValue(read.charAt(4)));
@@ -150,17 +142,27 @@ public class Chess {
 			
 		}while(gameStatus == 1);
 		
+		System.out.println("Checkmate");
+		
+		if(turn == 0){
+			System.out.println("White wins");
+		}else
+			System.out.println("Black wins");
+		
 		scanner.close();
 	}
 	
 	/**
-	 * Method to check whether user input is correctly formatted
+	 * Method to check whether user input is correctly formatted. 
+	 * 
+	 * Identifies resign and a draw, and invalid moves.
+	 * 
 	 * @param input two sets of positions 
-	 * @return 4,
-	 * 		3,
-	 * 		2,
-	 * 		1,
-	 * 		0
+	 * @return 4 player resigns from the game, <p>
+	 * 		3 player accepts the draw, <p>
+	 * 		2 player offers to end the game in a draw, <p>
+	 * 		1 valid input, <p>
+	 * 		0 invalid input
 	 */
 	public static int checkInput(String input){
 		
@@ -171,6 +173,7 @@ public class Chess {
 			return 2;
 		}
 		
+		// Accepting resign
 		if(input.equals("resign")){
 			return 4;
 		}
@@ -203,15 +206,15 @@ public class Chess {
 			return 0;
 		}
 	}
-
+	
 	/**
 	 * Checks if input value for file is correct
-	 * @param c input file value
+	 * @param ch input file value
 	 * @return true if value is valid (between a-h)
 	 * 		false otherwise
 	 */
-	public static boolean checkAlpha(char c){
-		if(Character.isLetter(c) && c == 'a' ||c == 'b' ||c == 'c' ||c == 'd' ||c == 'e' ||c == 'f' ||c == 'g' ||c == 'h'){
+	public static boolean checkAlpha(char ch){
+		if(Character.isLetter(ch) && ch == 'a' ||ch == 'b' ||ch == 'c' ||ch == 'd' ||ch == 'e' ||ch == 'f' ||ch == 'g' ||ch == 'h'){
 			return true;
 		}else{
 			return false;
@@ -220,18 +223,16 @@ public class Chess {
 	
 	/**
 	 * Checks if input value for rank is correct
-	 * @param i input rank value
+	 * @param digit input rank value
 	 * @return true if value is valid (between 1-8)
 	 * 		false otherwise
 	 */
-	public static boolean checkDigit(int i){
-		
-		if(i > 8 || i < 1){
+	public static boolean checkDigit(int digit){
+		if(digit > 8 || digit < 1){
 			return false;
 		}else{
 			return true;
 		}
-		
 	}
 	
 	/**
@@ -290,7 +291,7 @@ public class Chess {
 	/**
 	 * Checks if player indicated a valid promotion
 	 * @param c requested promotion
-	 * @return true if requested promotion is valid
+	 * @return true if requested promotion is valid, <p>
 	 * 		false otherwise
 	 */
 	public static boolean checkPawnPromotion(char c){
