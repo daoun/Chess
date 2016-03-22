@@ -7,13 +7,17 @@ package chess;
  *
  */
 public class Player {
-	Piece[] pieces = new Piece[16];
-	String team;
+	/** array of pieces that the player has */
+	public Piece[] pieces = new Piece[16];
+	
+	/** indicates which team the player is on */
+	public String team;
+	
 	/**
-	 * default constructor.
+	 * Default constructor.
 	 * @param team a string representation of the player's team 
 	 */
-public Player(String team){
+	public Player(String team){
 		
 		this.team = team;
 		

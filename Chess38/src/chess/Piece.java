@@ -10,12 +10,25 @@ import java.util.List;
  */
 public abstract class Piece {
 	
+	/** identifies the type of piece */
 	private String type;
+	
+	/** identifies the team of piece */
 	private String team;
+	
+	/** identifies the rank of piece */
 	private int rank;
+	
+	/** identifies the file of piece */
 	private int file;
+	
+	/** denotes the first move made */
 	private int firstMoveMade = 0;
+	
+	/** denotes the castling move made */
 	private int castlingMoveMade = 0;
+	
+	/** denotes pawn two advance */
 	private int pawnTwoAdvance = 0;
 
 	/**
@@ -518,7 +531,7 @@ public abstract class Piece {
 	}
 	
 	/**
-	 * Gets the type of the piece.
+	 * Gets the type of the piece from a private field.
 	 * @return a string representation of the type. 
 	 * 		Possible types are bishop, knight, rook, pawn, king, or queen.
 	 */
@@ -528,14 +541,14 @@ public abstract class Piece {
 
 	/**
 	 * Sets the type of a piece.
-	 * @param type string representation of the type
+	 * @param type string representation of the type.
 	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
 	/**
-	 * Gets the team of the piece.
+	 * Gets the team of the piece from a private field.
 	 * @return a string representation of the team. 
 	 * 		Possible teams are white or black.
 	 */
@@ -545,14 +558,14 @@ public abstract class Piece {
 
 	/**
 	 * Sets the team of a piece. 
-	 * @param team string representation of the team
+	 * @param team string representation of the team.
 	 */
 	public void setTeam(String team) {
 		this.team = team;
 	}
 
 	/**
-	 * Gets the rank of the piece.
+	 * Gets the rank of the piece from a private field.
 	 * @return a numerical representation of the rank of a piece.
 	 * 		Possible range is 0-7.
 	 */
@@ -561,7 +574,7 @@ public abstract class Piece {
 	}
 
 	/**
-	 * Sets the rank of a piece
+	 * Sets the rank of a piece.
 	 * @param rank numerical representation of a rank of a piece.
 	 */
 	public void setRank(int rank) {
@@ -569,7 +582,7 @@ public abstract class Piece {
 	}
 
 	/**
-	 * Gets the file of the piece.
+	 * Gets the file of the piece from a private field.
 	 * @return a numerical representation of a file of a piece.
 	 * 		Possible range is 0-7.
 	 */
@@ -578,7 +591,7 @@ public abstract class Piece {
 	}
 
 	/**
-	 * Sets the file of a piece
+	 * Sets the file of a piece.
 	 * @param file numerical representation of a file of a piece.
 	 */
 	public void setFile(int file) {
@@ -586,7 +599,7 @@ public abstract class Piece {
 	}
 	
 	/**
-	 * Gets the value of the firstMoveMade field.
+	 * Gets the value of the firstMoveMade private field.
 	 * @return value of firstMoveMade
 	 */
 	public int getFirstMoveMade() {
@@ -594,14 +607,14 @@ public abstract class Piece {
 	}
 
 	/**
-	 * Sets the value of the firstMoveMade field
+	 * Sets the value of the firstMoveMade field.
 	 * @param firstMoveMade indicator for first move made
 	 */
 	public void setFirstMoveMade(int firstMoveMade) {
 		this.firstMoveMade = firstMoveMade;
 	}
 	/**
-	 * Gets the value of the castling move made
+	 * Gets the value of the castlingMoveMade private field.
 	 * @return value of castlingMoveMade
 	 */
 	public int getCastlingMoveMade(){
@@ -609,7 +622,7 @@ public abstract class Piece {
 	}
 	
 	/**
-	 * Set the value of castlingMoveMade field
+	 * Set the value of castlingMoveMade field.
 	 * @param move number to be set as the value of castlingMoveMade
 	 */
 	public void setCastlingMoveMade(int move){
@@ -617,7 +630,7 @@ public abstract class Piece {
 	}
 	
 	/**
-	 * Gets the value of pawnTwoAdvance
+	 * Gets the value of pawnTwoAdvance private field.
 	 * @return value of pawnTwoAdvance
 	 */
 	public int getPawnTwoAdvance() {

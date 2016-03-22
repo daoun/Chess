@@ -35,8 +35,4 @@ public class Queen extends Piece {
 		return posList;
 		
 	}
-
-
-	
-
 }

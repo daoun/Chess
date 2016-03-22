@@ -24,9 +24,6 @@ public class Bishop extends Piece {
 	 * @return	list of positions that a bishop can move to 
 	 */
 	public List<Position> availablePositions() {
-		
 		return this.findDiagonal();
-		
 	}
-	
 }

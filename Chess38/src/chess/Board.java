@@ -7,7 +7,8 @@ package chess;
  *
  */
 public class Board {
-	static Piece[][] board = new Piece[8][8];
+	/** 2D array of pieces that contains all of the pieces that are in the game */
+	public static Piece[][] board = new Piece[8][8];
 	
 	/**
 	 * Initializes the board to its initial set up.
@@ -118,8 +119,6 @@ public class Board {
 							break;
 					}
 				}
-				
-				
 			}
 			
 			// Print row numbers
@@ -146,6 +145,4 @@ public class Board {
 		}else
  			return false;
 	}
-	
-	
 }

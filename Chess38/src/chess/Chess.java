@@ -8,21 +8,29 @@ import java.util.Scanner;
  */
 public class Chess {
 
-	static int turn = 1;
+	/** indicates which team's turn it is */
+	public static int turn = 1;
 
-	static char pawnPromotionTo = 'a';
+	/** indicates which piece the pawn is promoting to */
+	public static char pawnPromotionTo = 'a';
 	
-	static int requestForDraw = 0;
+	/** indicates if there was a request for a draw */
+	public static int requestForDraw = 0;
 	
-	static int bCheck = 0;
+	/** indicates if there is a check on black team */
+	public static int bCheck = 0;
 	
-	static int wCheck = 0;
+	/** indicates if there is a check on white team */
+	public static int wCheck = 0;
 	
-	static int gameStatus = 1;
+	/** indicates if the game is still going on */
+	public static int gameStatus = 1;
 
-	//Declare players
-	static Player bPlayer;
-	static Player wPlayer;
+	/** initialize black player */
+	public static Player bPlayer;
+	
+	/** initialize white player */
+	public static Player wPlayer;
 	
 	/**
 	 * Main method starts the game. 
@@ -40,8 +48,7 @@ public class Chess {
 		//Initialize players
 		bPlayer = new Player("black");
 		wPlayer = new Player("white");
-		
-				
+			
 		//Scanner to read user input
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
@@ -56,7 +63,6 @@ public class Chess {
 		
 		//temp int
 		int temp, temp2;
-		
 		
 		do {
 			//Draw board
@@ -95,13 +101,13 @@ public class Chess {
 						pawnPromotionTo = read.charAt(6);
 					}
 					
-					
 					System.out.println();
 					
 					fromX = translate(Character.getNumericValue(read.charAt(1)));
 					fromY = translate(read.charAt(0));
 					toX = translate(Character.getNumericValue(read.charAt(4)));
 					toY = translate(read.charAt(3));
+					
 					if(!Board.isEmpty(fromX,fromY) && team.equals("White")){
 						if((temp = wPlayer.movePiece(fromX, fromY, toX, toY, pawnPromotionTo)) == 1 || temp == 2){
 							wrongInput = false;
@@ -111,7 +117,6 @@ public class Chess {
 						}else{
 							printError(team);
 						}
-						
 					}else if(!Board.isEmpty(fromX,fromY) && team.equals("Black")){
 						if((temp = bPlayer.movePiece(fromX, fromY, toX, toY, pawnPromotionTo)) == 1 || temp == 2){
 							wrongInput = false;
@@ -139,8 +144,7 @@ public class Chess {
 				turn = 0;
 			}else
 				turn = 1;
-			
-		}while(gameStatus == 1);
+		} while(gameStatus == 1);
 		
 		System.out.println("Checkmate");
 		
@@ -154,7 +158,6 @@ public class Chess {
 	
 	/**
 	 * Method to check whether user input is correctly formatted. 
-	 * 
 	 * Identifies resign and a draw, and invalid moves.
 	 * 
 	 * @param input two sets of positions 
@@ -192,7 +195,6 @@ public class Chess {
 			if(checkAlpha(input.charAt(0)) && checkDigit(Character.getNumericValue(input.charAt(1))) && checkAlpha(input.charAt(3)) && checkDigit(Character.getNumericValue(input.charAt(4))) && input.length() == 7 && input.charAt(2) == ' ' && input.charAt(5) == ' ' && checkPawnPromotion(input.charAt(6))){
 				return 5;
 			}
-			
 			return 0;
 		}
 		
@@ -267,7 +269,6 @@ public class Chess {
 	 * @return translated file value
 	 */
 	public static int translate(char c){
-		
 		switch(c){
 			case 'a':
 				return 0;
@@ -302,7 +303,7 @@ public class Chess {
 	}
 	
 	/**
-	 * Prints the error
+	 * Prints the error message for an illegal move
 	 * @param team indicates what team created the error
 	 */
 	public static void printError(String team){

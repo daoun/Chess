@@ -11,7 +11,7 @@ public class Position {
 	private int file;
 	
 	/**
-	 * Gets the rank of piece.
+	 * Gets the rank of piece from a private field.
 	 * @return rank
 	 */
 	public int getRank() {
@@ -27,7 +27,7 @@ public class Position {
 	}
 
 	/**
-	 * Gets the file of piece.
+	 * Gets the file of piece from a private field.
 	 * @return file
 	 */
 	public int getFile() {
