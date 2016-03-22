@@ -140,6 +140,9 @@ public class Board {
 	 * 		false otherwise
 	 */
 	public static boolean isEmpty(int rank, int file){
+		if(rank > 7 && rank < 0 && file > 7 && file < 0 ){
+			return true;
+		}
 		if(board[rank][file] == null){
 			return true;
 		}else
